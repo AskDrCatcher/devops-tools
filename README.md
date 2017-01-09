@@ -10,11 +10,11 @@ Contents
 
 1. number_of_files_of_types/
   * takes a dir path and the file type and print out the total number
-    of files (including sub-dirs) under the dir path and the total number
+    of files (including files under sub-dirs) under the dir path and the total number
     of files of file type.
   * written in js
   * run with node
     * sudo npm install
-    * npm number_of_files_of_types.js
+    * node number_of_files_of_types.js
 
 
