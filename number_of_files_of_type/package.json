@@ -1,0 +1,27 @@
+{
+  "name": "number_of_files_of_type",
+  "version": "1.0.0",
+  "description": "Search a directory path (recursively) and count total files and total files of type entered in input",
+  "main": "number_of_files_of_type.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AskDrCatcher/devops-tools.git"
+  },
+  "keywords": [
+    "find"
+  ],
+  "author": "Arun S K <arunsk.tec@gmail.com> (http://www.arunsk.com)",
+  "license": "Apache 2",
+  "bugs": {
+    "url": "https://github.com/AskDrCatcher/devops-tools/issues"
+  },
+  "homepage": "https://github.com/AskDrCatcher/devops-tools",
+  "dependencies": {
+    "path": "^0.12.7",
+    "readline": "^1.3.0",
+    "recursive-readdir": "^2.1.0"
+  }
+}
