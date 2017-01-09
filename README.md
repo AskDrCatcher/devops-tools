@@ -14,7 +14,7 @@ Contents
     of files of file type.
   * written in js
   * run with node
-    > sudo npm install
-    > npm number_of_files_of_types.js
+    * sudo npm install
+    * npm number_of_files_of_types.js
 
 
