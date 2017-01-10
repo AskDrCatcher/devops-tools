@@ -17,4 +17,18 @@ Contents
     * sudo npm install
     * node number_of_files_of_types.js
 
+2. check_sha/
+  * takes the checksum file and optional sha size (256 is default) and print OK
+    if the checksum is valid.
+  * written in bash
+  * add to path
+  * chmod a+x check_sha
+  * example:
+    //default sha-256
+    $check_sha WebStorm-2016.2.4.dmg.sha256.txt
+     WebStorm-2016.2.4.dmg: OK
+    //explicit sha-256
+    $check_sha WebStorm-2016.2.4.dmg.sha256.txt 256
+      WebStorm-2016.2.4.dmg: OK
+
 
