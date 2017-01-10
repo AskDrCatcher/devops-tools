@@ -24,9 +24,11 @@ Contents
   * add to path
   * chmod a+x check_sha
   * example:
+    *
     //default sha-256
     $check_sha WebStorm-2016.2.4.dmg.sha256.txt
      WebStorm-2016.2.4.dmg: OK
+    *
     //explicit sha-256
     $check_sha WebStorm-2016.2.4.dmg.sha256.txt 256
       WebStorm-2016.2.4.dmg: OK
