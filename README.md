@@ -33,4 +33,44 @@ Contents
     $check_sha WebStorm-2016.2.4.dmg.sha256.txt 256
     WebStorm-2016.2.4.dmg: OK
     ```
+3. java_propertyfile_compare/
+  * takes two java property files fileA and fileB and print keys from fileB that are missing in fileA and keys from fileA that are missing in fileB
+  * written in perl
+  * add to path
+  * chmod a+x java_propertyfile_compare
+  * example:
+    ```
+    $java_propertyfile_compare --compare test1.txt test2.txt 
+
+    Starting comparison of 
+     test1.txt 
+     and test2.txt
+
+    test1.txt and test2.txt are different
+
+     The keys in test1.txt not in test2.txt : 
+    b
+
+     The keys in test2.txt not in test1.txt : 
+    c
+    ```
+4. remove_ctrlm_char/
+  * Remove ^M (press Ctrl + V and M in succession) character at the end of line.Usually happen when file is ftp'ed from Windows machine to unix without turning on binary mode.
+  * written in perl
+  * add to path
+  * chmod a+x remove_ctrlm_char
+  * example:
+    ```
+    $ls -alt test.txt
+    -rw-r--r--   1 user  root  2 Jan 16 01:13 test.txt
+    $remove_ctrlm_char --removeControlChar test.txt 
+
+    Files checked for CTRL+M characters:
+    test.txt
+    $ls -alt test.txt
+    -rw-r--r--  1 user  root  1 Jan 16 01:25 test.txt
+    ```
+    Notice that the file size reduced from 2 to 1 from removing of the ^M character.
+
+
 
