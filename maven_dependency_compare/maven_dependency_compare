@@ -1,0 +1,94 @@
+#!/usr/bin/env perl
+
+###################################################################################
+# compare jars between two different maven jar dependency folders. 
+#
+# a. List all jar files missing in dest that are present in src.
+# b. List all jar files that are same between src and dest
+# 	 but have different md5 hash.
+#
+# Usage:
+#
+# 1. Add maven_dependency_compare file to path
+# 2. chmod a+x maven_dependency_compare
+# 3. type in command prompt
+#    $ maven_dependency_compare
+#
+# Author: Arun S K
+# License: Apache 2
+####################################################################################
+
+use strict;
+use warnings;
+
+use Getopt::Long;
+use IO::File;
+use File::Spec;
+
+sub perform_compare {
+
+	my ($dir1, $dir2) = @ARGV;
+	$dir1 =~ s/\\/\\\\/g;
+	$dir2 =~ s/\\/\\\\/g;
+
+	my $result = -1;
+	my (@files1, @files2);
+	my $dh;
+
+	opendir($dh, $dir1) or die $!;
+	@files1 = readdir($dh);
+	closedir($dh);
+
+	opendir($dh, $dir2) or die $!;
+	@files2 = readdir($dh);
+	closedir($dh);	
+
+	# compare jar filenames (without the jar version)
+	foreach (@files1) {
+
+		my $file1 = $_;
+		my $filename = $_;
+		$filename =~ s/.jar//;
+		chomp($filename);
+
+		my $file2;
+		my $found = 0;
+		
+		foreach (@files2) {
+			chomp($_);
+			if (index($_, $filename) != -1) {
+				$found = 1;
+				$file2 = $_;
+				last;
+			}
+		}
+
+		$found = 1 if $_ eq '.' || $_ eq '..';# ignore . and ..
+
+		do {
+			unless ($_ eq '.' || $_ eq '..') {
+				my ($fullpath1, $fullpath2) = 
+					("$dir1".(File::Spec->catfile('', '')).$file1,
+						"$dir2".(File::Spec->catfile('', '')).$file2);
+				
+				my ($md5File1, $md5File2) =
+					(`check_md5 --path $fullpath1`, `check_md5 --path $fullpath2`);
+
+				print "MD5 is different for $_ and $file2 :\n$md5File1\n$md5File2\n"
+					unless (split(/=>/,$md5File1))[-1] 
+						eq (split(/=>/,$md5File2))[-1];
+			}
+		} if $found;
+
+		print "Not found $filename in destination folder $dir2\n"  unless $found;
+	}
+}
+
+do {
+	print "Usage: \n";
+	print "maven_dependency_compare --paths <path/to/src_dependency_folder>". 
+			" <path/to/dest_dependency_folder>\n";
+} unless @ARGV != 0 && ($ARGV[0] eq "--paths");
+my %opts;
+GetOptions (\%opts, 'paths');
+&perform_compare if ($opts{paths})

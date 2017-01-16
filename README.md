@@ -80,10 +80,34 @@ Contents
   * chmod a+x check_md5
   * example:  
     ```
-    $./check_md5 --path test.txt   
+    $check_md5 --path test.txt   
     test.txt => 4925b5f6e954a193f07303a3186c966d
     ```
 
+6. maven_dependency_compare/
+  * compare jars between two different maven jar dependency folders.  
+    a. List all jar files missing in dest that are present in src.
+    b. List all jar files that are same between src and dest but have different md5 hash.
+  * written in perl
+  * depend on check_md5 to be in the path
+  * add to path
+  * chmod a+x maven_dependency_compare
+  * example:
+    ```
+    $maven_dependency_compare --paths dir1 dir2
+      Not found file1 in destination folder dir2
+      MD5 is different for file4.jar and file4.jar :
+      dir1/file4.jar => 0bee89b07a248e27c83fc3d5951213c1
+
+      dir2/file4.jar => 8f0abafc5f8e6686a882c78cac4bcb9f
+
+    $maven_dependency_compare --paths dir2 dir1
+      Not found file3 in destination folder dir1
+      MD5 is different for file4.jar and file4.jar :
+      dir2/file4.jar => 8f0abafc5f8e6686a882c78cac4bcb9f
+
+      dir1/file4.jar => 0bee89b07a248e27c83fc3d5951213c1
+    ```  
 
 
 

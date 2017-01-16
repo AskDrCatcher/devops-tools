@@ -19,6 +19,7 @@ use warnings;
 
 use Getopt::Long;
 use IO::File;
+use File::Spec;
 use Digest::MD5;
 
 sub check_md5 {
