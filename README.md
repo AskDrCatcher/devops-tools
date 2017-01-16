@@ -54,6 +54,7 @@ Contents
      The keys in test2.txt not in test1.txt : 
     c
     ```
+  
 4. remove_ctrlm_char/
   * Remove ^M (press Ctrl + V and M in succession) character at the end of line.Usually happen when file is ftp'ed from Windows machine to unix without turning on binary mode.
   * written in perl
@@ -70,7 +71,19 @@ Contents
     $ls -alt test.txt
     -rw-r--r--  1 user  root  1 Jan 16 01:25 test.txt
     ```
-    Notice that the file size reduced from 2 to 1 from removing of the ^M character.
+    Notice that the file size reduced from 2 to 1 from removing of the ^M character.  
+
+5. check_md5/
+  * print md5 checksum for a file or all files under a folder.
+  * written in perl
+  * add to path
+  * chmod a+x check_md5
+  * example:
+    ```
+    $./check_md5 --path test.txt 
+    test.txt => 4925b5f6e954a193f07303a3186c966d
+    ```
+
 
 
 

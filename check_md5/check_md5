@@ -1,0 +1,59 @@
+#!/usr/bin/env perl
+
+###################################################################################
+# print md5 checksum for a file or all files under a folder.
+#
+# Usage:
+#
+# 1. Add check_md5 file to path
+# 2. chmod a+x check_md5
+# 3. type in command prompt
+#    $ check_md5
+#
+# Author: Arun S K
+# License: Apache 2
+####################################################################################
+
+use strict;
+use warnings;
+
+use Getopt::Long;
+use IO::File;
+use Digest::MD5;
+
+sub check_md5 {
+  my $path = ($_[0] || $ARGV[0]);
+  if (-d $path) { #directory
+    opendir (DIR, $path) or die $!;
+    while (my $file = readdir(DIR)) {
+      perform_md5 ($path.(File::Spec->catfile('', '')).$file)
+        unless $file eq '.' || $file eq '..';
+    }
+    closedir(DIR);
+  } else {
+    perform_md5 ($path); #file
+  }
+}
+
+sub perform_md5 {
+  my $file = $_[0] || $ARGV[0];
+  my $md5 = Digest::MD5->new;
+  open(FILE, $file) or die $!;
+  binmode(FILE);
+  my $md5sum = $md5->addfile(*FILE)->hexdigest;
+  close FILE;
+  print $_[0]." => ".$md5sum."\n" if @ARGV != 0;
+}
+
+
+do {
+  print "Usage:\n";
+  print "check_md5 --path <path/to/folder or file>\n";
+} unless @ARGV != 0 && ($ARGV[0] eq '--path');
+my %opts;
+GetOptions (\%opts, 'path');
+&check_md5 if($opts{path});
+
+
+
+
