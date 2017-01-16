@@ -78,9 +78,9 @@ Contents
   * written in perl
   * add to path
   * chmod a+x check_md5
-  * example:
+  * example:  
     ```
-    $./check_md5 --path test.txt 
+    $./check_md5 --path test.txt   
     test.txt => 4925b5f6e954a193f07303a3186c966d
     ```
 
