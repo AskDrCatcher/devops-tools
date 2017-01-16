@@ -1,0 +1,120 @@
+#!/usr/bin/env perl
+
+###################################################################################
+# Compare two java property files A and B and list keys
+# from elements of {A - B} and {B - A}
+#
+# Usage:
+#
+# 1. Add java_propertyfile_compare file to path
+# 2. chmod a+x java_propertyfile_compare
+# 3. type in command prompt
+#    $ java_propertyfile_compare
+#
+# Author: Arun S K
+# License: Apache 2
+####################################################################################
+
+use strict;
+use warnings;
+
+use Getopt::Long;
+use File::Compare;
+use Tie::File;
+
+# Perform general comparison b/w two files and spit out the diff if any
+sub perform_compare {
+  check_input();
+
+  my ($filename_1, $filename_2) = @ARGV;
+  my $result = -1;
+
+  print "\n\nStarting comparison of \n $filename_1 \n and $filename_2\n\n";
+  chomp ($filename_1, $filename_2);
+
+  $result = compare($filename_1, $filename_2);
+
+  if ($result == 0) {
+    print "$filename_1 and $filename_2 are identical\n";
+  } elsif ($result == 1) {
+    print "$filename_1 and $filename_2 are different\n";
+    perform_diff($filename_1, $filename_2);
+  } else {
+    print "Error comparing $filename_1 and $filename_2\n";
+  }
+}
+
+sub check_input {
+  do {
+    print print_usage();
+    exit;
+  } unless @ARGV == 2;
+}
+
+sub print_usage {
+  return "\n\nUSAGE: java_propertyfile_compare <path/to/file1> <path/to/file2>\n\n";
+}
+
+sub perform_diff {
+  my ($filename_1, $filename_2) = @_;
+  chomp($filename_1, $filename_2);
+
+  tie my @lines1, 'Tie::File', $filename_1
+    or die "Error when using file $filename_1: $!";
+
+  tie my @lines2, 'Tie::File', $filename_2
+    or die "Error when using file $filename_2: $!";
+
+  my (@keys1, @keys2);
+  foreach(@lines1) {
+    push(@keys1, (split ("=", $_))[0]);
+  }
+  foreach(@lines2) {
+    push(@keys2, (split ("=", $_))[0]);
+  }
+
+  # find all the keys in file1 that is not in file2
+  foreach(@lines2) {
+    my $key = $_;
+    chomp($key);
+    my $index = -1;
+    foreach (@keys1) {
+      chomp($_);
+      $index++;
+      splice(@keys1, $index, 1) if index($key, $_) != -1;
+     }
+  }
+
+  # find all the keys in file2 that is not in file1
+  foreach(@lines1) {
+    my $key = $_;
+    chomp($key);
+    my $index = -1;
+    foreach(@keys2) {
+      chomp($_);
+      $index++;
+      splice(@keys2, $index, 1) if index($key, $_) != -1;
+    }
+  }
+
+  print "\n The keys in $filename_1 not in $filename_2 : \n";
+  print join ("\n", @keys1), "\n";
+
+  print "\n The keys in $filename_2 not in $filename_1 : \n";
+  print join ("\n", @keys2), "\n";
+
+  untie @lines2;
+  untie @lines1;
+}
+
+#--------------------------------- call subroutunes below ---------------------
+do {
+
+  print "Usage: \n";
+  print "java_propertyfile_compare --compare <path/to/file1> <path/to/file2> \n";
+
+} unless @ARGV != 0 && ($ARGV[0] eq '--compare');
+my %opts;
+GetOptions (\%opts, 'compare');
+&perform_compare if($opts{compare});
+

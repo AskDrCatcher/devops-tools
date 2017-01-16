@@ -1,0 +1,50 @@
+#!/usr/bin/env perl
+
+###################################################################################
+# Remove ^M (press Ctrl + V and M in succession) character at the end of line.
+# Usually happen when file is ftp'ed from Windows machine to unix without 
+# turning on binary mode.
+#  
+# Usage:
+#
+# 1. Add remove_ctrlm_char file to path
+# 2. chmod a+x remove_ctrlm_char
+# 3. type in command prompt
+#    $ remove_ctrlm_char
+#
+# Author: Arun S K
+# License: Apache 2
+####################################################################################
+
+use strict;
+use warnings;
+
+use Getopt::Long;
+use Tie::File;
+
+# CTRL+M at eol is due to performing FTP from windows to unix without using Binary mode.
+# If CTRL+M char is found then the user needs write permission on the file to remove it.
+sub check_and_remove_control_M_character {
+  exit unless @ARGV > 0;
+  chomp(@ARGV);
+  print "\nFiles checked for CTRL+M characters:\n";
+  foreach(@ARGV) {
+    print $_."\n";
+    tie my @lines, 'Tie::File', $_ or die "Error when using file $_:$!";
+    for(@lines) {
+      s/\r//g;  #remove CTRL+M in each row of the file
+    }
+    untie @lines;
+  }
+}
+
+do {
+
+  print "Usage: \n";
+  print "remove_ctrlm_char --removeControlChar <space separated list of path/to/files>\n";
+
+} unless @ARGV != 0 && ($ARGV[0] eq '--removeControlChar');
+my %opts;
+GetOptions (\%opts, 'removeControlChar');
+&check_and_remove_control_M_character if($opts{removeControlChar});
+
