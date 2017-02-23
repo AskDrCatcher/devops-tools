@@ -1,0 +1,71 @@
+#!/usr/bin/env perl
+
+#####################################################################
+# 																	#
+# A simple script to extract currecy code to currency symbol info	#
+# and create a property file out of it.								#
+#																	#
+#####################################################################
+
+use strict;
+use warnings;
+
+use Getopt::Long;
+use IO::File;
+use Digest::MD5;
+
+
+sub extract_currency_symbols {
+
+	# Keep a local copy of https://github.com/zwacky/isoCurrency/blob/master/dist/isoCurrency.js
+	# under the same folder as this script. 
+	my $basename = 'isoCurrency';
+	my $inFile   = $basename.".js";
+	my $outFile  = $basename.".properties";
+
+	my $first;
+	my $second;
+	my $present = "";
+
+	open(my $fi, '<:encoding(UTF-8)', $inFile) 
+		or die "Could not open file '$inFile' $!";
+
+	unlink $outFile;
+	open(my $fo, '>:encoding(UTF-8)', $outFile) 
+		or die "Could not open file '$outFile' $!";
+
+	while (my $row = <$fi>) {
+		chomp $row;
+
+		# depend on return instruction being present on the isoCurrency.js to terminate the loop
+		if ($row =~ m/return/) {
+			last;
+		}
+
+		if ($row =~ m{:}) {
+
+			if ($row =~ m/{/) {
+
+				$first = (split /\:/, $row)[0];
+				$first =~ s/'/"/g;
+				$first =~ s/^\s+//;
+			
+			} elsif ($row =~ m/symbol/) {
+
+				$second = (split /\:/, $row)[1];
+				$second =~ s/'/"/g;
+				
+				$present = "true" unless $second =~ m/false/;
+			}
+		}
+
+		if ($present eq "true") {
+			$present = "";
+			print $fo $first."=".$second."\n";
+		}
+	}
+
+	close $fo;
+}
+
+&extract_currency_symbols
