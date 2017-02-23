@@ -1,10 +1,10 @@
 #!/usr/bin/env perl
 
 #####################################################################
-# 																	#
-# A simple script to extract currecy code to currency symbol info	#
-# and create a property file out of it.								#
-#																	#
+# 																	
+# A simple script to extract currecy code to currency symbol info	
+# and create a property file out of it.							
+#																	
 #####################################################################
 
 use strict;
