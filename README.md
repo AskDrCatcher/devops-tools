@@ -107,9 +107,9 @@ Contents
       dir2/file4.jar => 8f0abafc5f8e6686a882c78cac4bcb9f
 
       dir1/file4.jar => 0bee89b07a248e27c83fc3d5951213c1
-    ```  
+    ```   
 
- 7. iso_currency_mapper/
+7. iso_currency_mapper/
   * reads isoCurrency.js file (locally downloaded from https://github.com/zwacky/isoCurrency/blob/master/dist/isoCurrency.js) and generates isoCurrency.properties with the list of currency code as key and currency symbol as value
   * written in perl
   * add to path
