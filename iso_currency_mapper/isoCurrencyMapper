@@ -13,12 +13,22 @@ use warnings;
 use Getopt::Long;
 use IO::File;
 use Digest::MD5;
+use File::Fetch;
 
+# ignore previous download failure
+$File::Fetch::METHOD_FAIL = {};
+# ignore ssl verification (not recommended in general!)
+$ENV{'PERL_LWP_SSL_VERIFY_HOSTNAME'} = 0;
+
+sub fetch_iso_currency_file {
+	my $file_url = 'http://raw.githubusercontent.com/zwacky/isoCurrency/master/dist/isoCurrency.js';
+	my $ff = File::Fetch->new(uri => $file_url);
+    # fetch the uri to cwd()
+    $ff->fetch() or die "Error downloading from $file_url due to $! : $ff->error";
+}
 
 sub extract_currency_symbols {
 
-	# Keep a local copy of https://github.com/zwacky/isoCurrency/blob/master/dist/isoCurrency.js
-	# under the same folder as this script. 
 	my $basename = 'isoCurrency';
 	my $inFile   = $basename.".js";
 	my $outFile  = $basename.".properties";
@@ -26,6 +36,10 @@ sub extract_currency_symbols {
 	my $first;
 	my $second;
 	my $present = "";
+
+	unlink $inFile;
+	# download a fresh copy from internet (because it could have been updated)
+	fetch_iso_currency_file();
 
 	open(my $fi, '<:encoding(UTF-8)', $inFile) 
 		or die "Could not open file '$inFile' $!";
