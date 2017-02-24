@@ -21,9 +21,9 @@ $File::Fetch::METHOD_FAIL = {};
 $ENV{'PERL_LWP_SSL_VERIFY_HOSTNAME'} = 0;
 
 sub fetch_iso_currency_file {
-	my $file_url = 'http://raw.githubusercontent.com/zwacky/isoCurrency/master/dist/isoCurrency.js';
-	my $ff = File::Fetch->new(uri => $file_url);
-    # fetch the uri to cwd()
+    my $file_url = 'http://raw.githubusercontent.com/zwacky/isoCurrency/master/dist/isoCurrency.js';
+    my $ff = File::Fetch->new(uri => $file_url);
+  	# fetch the uri to cwd()
     $ff->fetch() or die "Error downloading from $file_url due to $! : $ff->error";
 }
 
