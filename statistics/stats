@@ -9,5 +9,12 @@
 use warnings;
 use strict;
 
+use Getopt::Long;
 
+
+sub mean {
+
+	# need to implement
+
+}
 

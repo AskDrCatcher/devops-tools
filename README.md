@@ -119,6 +119,20 @@ Contents
     $isoCurrencyMapper
 
     ```
+8. change_ssh_host/
+  * small bash script to change the ssh host when connecting to github. This helps when u
+have more than one github account (private, personal etc) and want an easy way to switch the ssh
+connection private keys.
+  * written in bash
+  * add to path
+  * chmod u=rwx,o=,g= change_ssh_host
+  * example:
+    ```
+    $change_ssh_host <SSH Host as in ~/.ssh/config file> <Github User Name> <Github repo name>
+    ```
+
+
+
 
 
 
