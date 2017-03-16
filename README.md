@@ -134,18 +134,17 @@ connection private keys.
   * script that exports statistics functions like mean, variance,
     SD etc.
   * written in perl
-  * add to path
-  * chmod a+x stats
+  * chmod a+x bin/stats
   * example:
     ```
-    $stats mean 1 3 4 5 6
-    3.8
-    $stats mean
-    0
-    $stats avg 1 3 4 5 6
-    Supported functions are : mean
+    $bin/stats mean 1 2 3 4 5 6
+    3.5
+    $bin/stats avg 1 2 3
+    2
+    $bin/stats
+    Supported functions are : mean, avg
     ```   
-    
+
 
  
 
