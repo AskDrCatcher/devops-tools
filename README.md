@@ -130,7 +130,24 @@ connection private keys.
     ```
     $change_ssh_host <SSH Host as in ~/.ssh/config file> <Github User Name> <Github repo name>
     ```
+9. statistics/
+  * script that exports statistics functions like mean, variance,
+    SD etc.
+  * written in perl
+  * add to path
+  * chmod a+x stats
+  * example:
+    ```
+    $stats mean 1 3 4 5 6
+    3.8
+    $stats mean
+    0
+    $stats avg 1 3 4 5 6
+    Supported functions are : mean
+    ```   
+    
 
+ 
 
 
 
