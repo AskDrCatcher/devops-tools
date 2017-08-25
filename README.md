@@ -145,6 +145,22 @@ connection private keys.
     Supported functions are : mean, avg
     ```   
 
+10. mockgen/
+  * script to generate random rows of comma separated values (duplicates possible).
+  * written in perl
+  * add to path
+  * chmod a+x mockgen
+  * example:
+    ```
+    $mockgen
+    no of rows generated: 1000
+    file created at location <dir>/mockgen/samples
+
+    $mockgen 10 students
+    no of rows generated: 10
+    file created at location students
+    ```
+
 
  
 
